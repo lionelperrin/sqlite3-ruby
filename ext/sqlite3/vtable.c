@@ -40,14 +40,14 @@ static int xCreate(sqlite3* db, VALUE *db_ruby,
 
 	// lookup for hash db.vtables
 	tables = rb_funcall(*db_ruby, rb_intern("vtables"), 0);
-	if (!RB_TYPE_P(tables, T_HASH)) {
+	if (TYPE(tables) != T_HASH) {
 		rb_raise(rb_eTypeError, "xCreate: expect db.vtables to be a Hash");
 	}
 	module_name = rb_str_new2(module_name_cstr);
 	module = rb_hash_aref(tables, module_name);
 	if (module == Qnil ) {
 		rb_raise(
-			rb_eKeyError,
+			rb_eArgError,
 			"xCreate: module %s is declared in sqlite3 but cant be found in db.vtables.",
 			module_name_cstr
 			);
@@ -57,7 +57,7 @@ static int xCreate(sqlite3* db, VALUE *db_ruby,
 	table = rb_hash_aref(module, table_name);
 	if (table == Qnil) {
 		rb_raise(
-			rb_eKeyError,
+			rb_eArgError,
 			"no such table: %s in module %s",
 			table_name_cstr,
 			module_name_cstr
@@ -190,12 +190,12 @@ static int xBestIndex(ruby_sqlite3_vtab *pVTab, sqlite3_index_info* info)
 
 	ret = rb_funcall( pVTab->vtable, rb_intern("best_index"), 2, constraint, order_by );
 	if (ret != Qnil ) {
-		if (!RB_TYPE_P(ret, T_HASH)) {
+		if (TYPE(ret) != T_HASH) {
 			rb_raise(rb_eTypeError, "best_index: expect returned value to be a Hash");
 		}
 		idx_num = rb_hash_aref(ret, ID2SYM(rb_intern("idxNum")));
 		if (idx_num == Qnil ) { 
-			rb_raise(rb_eKeyError, "best_index: mandatory key 'idxNum' not found");
+			rb_raise(rb_eArgError, "best_index: mandatory key 'idxNum' not found");
 		}
 		info->idxNum = FIX2INT(idx_num);
 		estimated_cost = rb_hash_aref(ret, ID2SYM(rb_intern("estimatedCost")));

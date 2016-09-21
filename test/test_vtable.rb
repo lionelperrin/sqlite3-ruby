@@ -60,7 +60,7 @@ module SQLite3
     def test_exception_table
       #the following line throws an exception because no ruby class NonExistingVTable has been registered
       VTableTest.new(@db, 'TestModule')
-      err = assert_raise KeyError do
+      err = assert_raise ArgumentError do
         @db.execute("create virtual table NonExistingVTable using TestModule")
       end
       assert_includes(err.message, 'no such table: NonExistingVTable in module TestModule')
