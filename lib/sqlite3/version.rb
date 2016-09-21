@@ -1,6 +1,6 @@
 module SQLite3
 
-  VERSION = '1.3.11.vtable'
+  VERSION = '1.3.12.vtable'
 
   module VersionProxy
 
