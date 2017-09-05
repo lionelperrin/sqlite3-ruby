@@ -8,7 +8,7 @@ end
 
 Hoe.plugin :debugging, :doofus, :git, :minitest, :bundler
 
-HOE = Hoe.spec 'sqlite3' do
+HOE = Hoe.spec 'risqlite3' do
   developer           'Jamis Buck', 'jamis@37signals.com'
   developer           'Luis Lavena', 'luislavena@gmail.com'
   developer           'Aaron Patterson', 'aaron@tenderlovemaking.com'
