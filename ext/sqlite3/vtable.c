@@ -344,7 +344,7 @@ static VALUE create_module(VALUE self, VALUE db, VALUE name)
 			db_ruby,
 			xfree
 			) != SQLITE_OK) {
-		rb_raise(rb_path2class("SQLite3::Exception"), sqlite3_errmsg(db_ctx->db));
+		rb_raise(rb_path2class("SQLite3::Exception"), "%s", sqlite3_errmsg(db_ctx->db));
 	}
 
 	return Qnil;
